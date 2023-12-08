@@ -1,0 +1,6 @@
+node_modules 
+.env 
+.vscode 
+upload
+example.js
+examples.js
