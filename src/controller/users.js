@@ -1,9 +1,16 @@
-const { createUser, findEmail, updateUser, findId } = require("../model/users");
+const {
+  createUser,
+  findEmail,
+  updateUser,
+  findNick,
+  findId,
+} = require("../model/users");
 const bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 const authHelper = require("../helper/auth");
 const commonHelper = require("../helper/common");
+const Joi = require("joi");
 
 const usersController = {
   registerUser: async (req, res) => {
@@ -12,7 +19,67 @@ const usersController = {
         req.body;
       const { rowCount } = await findEmail(user_email);
       if (rowCount) {
-        return res.json({ messege: "Email is already taken" });
+        return res.json({ message: "Email is already taken" });
+      }
+      const {
+        rows: [user],
+      } = await findNick(user_nickname);
+      if (user) {
+        return res.json({ message: "Nickname is already taken" });
+      }
+      const schema = Joi.object().keys({
+        user_email: Joi.string().email({
+          minDomainSegments: 2,
+          tlds: { allow: ["com", "net"] },
+        }),
+        user_fullname: Joi.string().required(),
+        user_nickname: Joi.string().required(),
+        user_password: Joi.string().min(4).max(15).required(),
+      });
+      const { error } = schema.validate(req.body, {
+        abortEarly: false,
+      });
+      if (error) {
+        // console.log(error.details[0].message);
+        if (error.details[0].message === `"user_email" is not allowed to be empty`) {
+          return res.json({
+            message: "Email is not allowed to be empty",
+          });
+        } else if (
+          error.details[0].message === `"user_email" must be a valid email`
+        ) {
+          return res.json({
+            message: "must be a valid email (example@gmail.com)",
+          });
+        } else if (
+          error.details[0].message ===
+          `"user_fullname" is not allowed to be empty`
+        ) {
+          return res.json({ message: "Fullname is not allowed to be empty" });
+        } else if (
+          error.details[0].message ===
+          `"user_nickname" is not allowed to be empty`
+        ) {
+          return res.json({ message: "Nickname is not allowed to be empty" });
+        } else if (
+          error.details[0].message ===
+          `"user_password" is not allowed to be empty`
+        ) {
+          return res.json({ message: "Password is not allowed to be empty" });
+        } else if (
+          error.details[0].message ===
+          `"user_password" length must be at least 4 characters long`
+        ) {
+          return res.json({
+            message: "Password length must be at least 4 characters long",
+          });
+        } else {
+          return res.json({
+            message:
+              "Password length must be less than or equal to 15 characters long",
+          });
+        }
+        return res.send(error.details[0].message);
       }
       const passwordHash = bcrypt.hashSync(user_password);
       const user_id = uuidv4();
