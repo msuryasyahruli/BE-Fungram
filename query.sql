@@ -24,6 +24,13 @@ CREATE TABLE contentImg (
     post_id VARCHAR NOT NULL
 );
 
+CREATE TABLE comments(
+    comment_id VARCHAR PRIMARY KEY,
+    comment VARCHAR NOT NULL,
+    post_id VARCHAR NOT NULL,
+    user_id VARCHAR NOT NULL,
+    time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
 
 SELECT
     *
