@@ -15,8 +15,8 @@ const insertComment = (data) => {
 
 const deleteComment = (comment_id) => {
     return Pool.query(`DELETE FROM comments WHERE comment_id='${comment_id}'`);
-  };
-  
+};
+
 
 const findPostId = (post_id) => {
     return new Promise((resolve, reject) =>
