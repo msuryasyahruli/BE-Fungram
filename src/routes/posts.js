@@ -5,7 +5,6 @@ const upload = require("../middleware/upload");
 
 router
     .get("/", postsController.getAllPosts)
-    .get("/search", postsController.searching)
     .get("/:id", postsController.getDetailPosts)
     .get("/user/:id", postsController.getDetailByUser)
     .post("/", upload, postsController.createPosts)

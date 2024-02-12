@@ -1,5 +1,9 @@
 const Pool = require("../config/db");
 
+const getAllUser = () => {
+  return Pool.query(`SELECT users.user_fullname, user_nickname, verify FROM users`)
+}
+
 const createUser = (data) => {
   const { user_id, user_email, passwordHash, user_fullname, user_nickname } =
     data;
@@ -66,4 +70,5 @@ module.exports = {
   findEmail,
   findNick,
   findId,
+  getAllUser,
 };

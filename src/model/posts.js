@@ -48,10 +48,6 @@ const findId = (post_id) => {
     );
 };
 
-const searching = (name) => {
-    return Pool.query(`SELECT * FROM posts WHERE name ILIKE '%${name}%'`);
-};
-
 module.exports = {
     selectAllPosts,
     selectPost,
@@ -61,5 +57,4 @@ module.exports = {
     deletePost,
     countData,
     findId,
-    searching,
 };

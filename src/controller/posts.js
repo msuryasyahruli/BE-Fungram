@@ -7,7 +7,6 @@ const {
     deletePost,
     countData,
     findId,
-    searching,
 } = require("../model/posts");
 const commonHelper = require("../helper/common");
 const { v4: uuidv4 } = require("uuid");
@@ -136,15 +135,6 @@ const postsController = {
         } catch (error) {
             console.log(error);
         }
-    },
-
-    searching: async (req, res) => {
-        const search = req.query.keyword;
-        searching(search)
-            .then((result) => {
-                commonHelper.response(res, result.rows, 200, "Search success");
-            })
-            .catch((err) => res.send(err));
     },
 };
 

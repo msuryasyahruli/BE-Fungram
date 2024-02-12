@@ -4,6 +4,7 @@ const {
   updateUser,
   findNick,
   findId,
+  getAllUser,
 } = require("../model/users");
 const bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require("uuid");
@@ -177,6 +178,20 @@ const usersController = {
       refreshToken: authHelper.refreshToken(payload),
     };
     commonHelper.response(res, result, 200, "Token has refreshed");
+  },
+
+  selectAllUser: async (req, res) => {
+    try {
+      const result = await getAllUser();
+      commonHelper.response(
+        res,
+        result.rows,
+        200,
+        "get data success",
+      );
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 
