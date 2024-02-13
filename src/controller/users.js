@@ -4,7 +4,8 @@ const {
   updateUser,
   findNick,
   findId,
-  getAllUser,
+  selectAllUser,
+  selectUser,
 } = require("../model/users");
 const bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require("uuid");
@@ -180,9 +181,9 @@ const usersController = {
     commonHelper.response(res, result, 200, "Token has refreshed");
   },
 
-  selectAllUser: async (req, res) => {
+  getAllUser: async (req, res) => {
     try {
-      const result = await getAllUser();
+      const result = await selectAllUser();
       commonHelper.response(
         res,
         result.rows,
@@ -193,6 +194,25 @@ const usersController = {
       console.log(error);
     }
   },
+
+  getDetailUser: async (req, res) => {
+    const user_nickname = String(req.params.nick);
+    const { rowCount } = await findNick(user_nickname);
+    if (!rowCount) {
+        return res.json({ message: "Nickname Not Found" });
+    }
+    selectUser(user_nickname)
+        .then((result) => {
+            commonHelper.response(
+                res,
+                result.rows,
+                200,
+                "get data success from database"
+            );
+        })
+        .catch((err) => res.send(err));
+},
+
 };
 
 module.exports = usersController;
