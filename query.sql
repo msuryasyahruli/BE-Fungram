@@ -26,41 +26,8 @@ CREATE TABLE contentImg (
 
 CREATE TABLE comments(
     comment_id VARCHAR PRIMARY KEY,
-    comment VARCHAR NOT NULL,
+    comment_text VARCHAR NOT NULL,
     post_id VARCHAR NOT NULL,
-    user_id VARCHAR NOT NULL,
+    user_nickname VARCHAR NOT NULL,
     time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
-
-SELECT
-    *
-FROM
-    user;
-
-SELECT
-    *
-FROM
-    user
-WHERE
-    id = 'g78e-37c4c-3c653';
-
-INSERT INTO
-    user(id, name, image)
-VALUES
-    ('g78e-37c4c-3c653', 'kaos', 'kaos.img');
-
-UPDATE
-    user
-SET
-    name = 'kaos putih',
-    image = 'kaosputih.img'
-WHERE
-    id = 'g78e-37c4c-3c653';
-
-DELETE FROM
-    user
-WHERE
-    id = '68bf-573xx-02c7w';
-
-ALTER TABLE posts ADD COLUMN time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL;
-SELECT users.user_nickname, posts.* FROM users INNER JOIN posts ON posts.user_id = users.user_id;
