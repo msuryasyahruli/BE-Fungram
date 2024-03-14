@@ -27,13 +27,13 @@ const commentsController = {
     },
 
     createComments: async (req, res) => {
-        const { comment, post_id, user_id } = req.body;
+        const { comment_text, post_id, user_nickname } = req.body;
         const comment_id = "comment-" + Math.floor(Math.random() * 10 * Math.pow(10, 9));
         const data = {
             comment_id,
-            comment,
+            comment_text,
             post_id,
-            user_id,
+            user_nickname,
         };
         insertComment(data)
             .then((result) =>

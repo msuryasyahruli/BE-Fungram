@@ -7,9 +7,9 @@ const selectByPost = (post_id) => {
 };
 
 const insertComment = (data) => {
-    const { comment_id, comment, post_id, user_id } = data;
+    const { comment_id, comment_text, post_id, user_nickname } = data;
     return Pool.query(
-        `INSERT INTO comments(comment_id,comment,post_id,user_id) VALUES('${comment_id}','${comment}','${post_id}','${user_id}')`
+        `INSERT INTO comments(comment_id,comment_text,post_id,user_nickname) VALUES('${comment_id}','${comment_text}','${post_id}','${user_nickname}')`
     );
 };
 
