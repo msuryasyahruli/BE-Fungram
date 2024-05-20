@@ -9,6 +9,6 @@ router
     .get("/user/:id", postsController.getDetailByUser)
     .post("/", upload, postsController.createPosts)
     .put("/:id", postsController.updatePosts)
-    .delete("/:id", postsController.deletePosts);
+    .delete("/:id/:img", postsController.deletePosts);
 
 module.exports = router;
