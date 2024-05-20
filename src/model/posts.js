@@ -2,12 +2,12 @@ const Pool = require("../config/db");
 
 const selectAllPosts = (limit, offset, sortby, sort) => {
     return Pool.query(
-        `SELECT users.user_id, user_nickname, verify, posts.* FROM users INNER JOIN posts ON posts.user_id = users.user_id ORDER BY ${sortby} ${sort} LIMIT ${limit} OFFSET ${offset}`
+        `SELECT user_nickname, verify, posts.* FROM users INNER JOIN posts ON posts.user_id = users.user_id ORDER BY ${sortby} ${sort} LIMIT ${limit} OFFSET ${offset}`
     );
 };
 
 const selectPost = (post_id) => {
-    return Pool.query(`SELECT * FROM posts WHERE post_id='${post_id}'`);
+    return Pool.query(`SELECT user_nickname, posts.* FROM users INNER JOIN posts ON posts.user_id = users.user_id WHERE post_id='${post_id}'`);
 };
 
 const selectByUser = (user_id) => {
