@@ -199,19 +199,19 @@ const usersController = {
     const user_nickname = String(req.params.nick);
     const { rowCount } = await findNick(user_nickname);
     if (!rowCount) {
-        return res.json({ message: "Nickname Not Found" });
+      return res.json({ message: "Nickname Not Found" });
     }
     selectUser(user_nickname)
-        .then((result) => {
-            commonHelper.response(
-                res,
-                result.rows,
-                200,
-                "get data success from database"
-            );
-        })
-        .catch((err) => res.send(err));
-},
+      .then((result) => {
+        commonHelper.response(
+          res,
+          result.rows,
+          200,
+          "get data success from database"
+        );
+      })
+      .catch((err) => res.send(err));
+  },
 
 };
 

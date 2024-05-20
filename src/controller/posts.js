@@ -84,7 +84,16 @@ const postsController = {
         const result = await cloudinary.uploader.upload(req.file.path);
         const post_image = result.secure_url;
         const { user_id, post_captions } = req.body;
-        const post_id = uuidv4();
+        const length = 8
+        let postId = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < length) {
+            postId += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        const post_id = postId;
         const data = {
             post_id,
             user_id,
@@ -123,6 +132,7 @@ const postsController = {
     deletePosts: async (req, res) => {
         try {
             const post_id = String(req.params.id);
+            const img = String(req.params.img);
             const { rowCount } = await findId(post_id);
             if (!rowCount) {
                 res.json({ message: "ID is Not Found" });
@@ -132,6 +142,8 @@ const postsController = {
                     commonHelper.response(res, result.rows, 200, "Posts deleted")
                 )
                 .catch((err) => res.send(err));
+            cloudinary.uploader
+                .destroy(`${img}`)
         } catch (error) {
             console.log(error);
         }
